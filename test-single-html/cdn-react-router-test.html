@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+<head>
+    <!-- https://reactjs.org/docs/installation.html -->
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+
+    <!-- https://stackoverflow.com/questions/40764596/using-react-router-with-cdn-and-without-webpack-or-browserify -->
+    <script src="https://unpkg.com/react-router/umd/react-router.min.js"></script>
+    <script src="https://unpkg.com/react-router-dom/umd/react-router-dom.min.js"></script>
+</head>
+
+<body>
+<div id="root"></div>
+<script type="text/babel">
+  const Router = window.ReactRouterDOM.HashRouter;
+  const Route =  window.ReactRouterDOM.Route;
+  const Link =  window.ReactRouterDOM.Link;
+  const Switch = window.ReactRouterDOM.Switch;
+
+  const Page1 = () => (<div>Page 1</div>);
+  const Page2 = () => (<div>Page 2</div>);
+  class Page3 extends React.Component{
+    constructor(props) {
+      super(props);
+      this.urlMatch = props.match.path;
+    }
+
+    render(){
+      return (<div>Page 3</div>);
+    }
+  }
+
+  class NavBar extends React.Component {
+
+    render(){
+      return (
+        <div>
+          <span style={{float:"right"}}>
+            <Link to="/">p1</Link>
+            &bull;
+            <Link to="/p2">p2</Link>
+            &bull;
+            <Link to="/p3">p3</Link>
+          </span>
+
+          <Switch>
+            <Route exact path='/' component={Page1}/>
+            <Route path='/p2' component={Page2}/>
+            <Route path='/p3' component={Page3}/>
+          </Switch>
+        </div>
+      );
+    }
+  }
+
+  ReactDOM.render(
+    <Router>
+      <NavBar/>
+    </Router>
+    ,
+    document.getElementById('root')
+  );
+</script>
+
+</body>
+</html>
