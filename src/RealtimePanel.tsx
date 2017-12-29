@@ -4,12 +4,14 @@ import Switch from 'material-ui/Switch';
 import Checkbox from "material-ui/Checkbox";
 import { FormGroup, FormControlLabel } from 'material-ui/Form';
 import stores from "./stores";
+import {observer} from "mobx-react";
 
 /*
 RT: ON / OFF
 Cnx: Send Down / Send Up / Options : NFCP, NR, WEB, IRC
  */
 
+@observer(['appState'])
 class RealtimePanel extends React.Component {
   state = {
     nfcp: true,
@@ -29,7 +31,15 @@ class RealtimePanel extends React.Component {
           <span className='PaneTitle'>Realtime</span>
           <span style={{paddingLeft:'10px'}}>({stores.appState.realtime})</span>
         </div>
-        <Switch></Switch>
+        <FormControlLabel
+          control={
+            <Switch
+              checked={stores.appState.realtime == 'on'}
+              onChange={(event, checked) => {stores.appState.realtime = checked ? 'on' : 'off'}}
+            />
+          }
+          label="on/off"
+        />
         <FormGroup row>
           <FormControlLabel
             control={
