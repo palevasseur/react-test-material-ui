@@ -6,7 +6,7 @@ import ReplayPanel from "./ReplayPanel";
 import RecordPanel from "./RecordPanel";
 import {Route, Switch} from "react-router";
 import {Link} from "react-router-dom";
-import {observer, Provider} from "mobx-react";
+import {inject, Provider} from "mobx-react";
 import stores from "./stores";
 import Button from "material-ui/Button";
 
@@ -35,7 +35,7 @@ class PanelsContainer extends React.Component<any> {
 
 const linkStyle = {color:'inherit', textDecoration: 'none'};
 const linkStyleDisable = {color:'grey'};
-@observer(['appState'])
+@inject('appState')
 class NavigationBar extends React.Component<any> {
   render() {
     return (
@@ -64,7 +64,7 @@ const SimpleAdvancedSwitch = () => (
   </Switch>
 );
 
-@observer(['appState'])
+@inject('appState')
 class SimpleContainer extends React.Component {
   constructor(props: any) {
     super(props);

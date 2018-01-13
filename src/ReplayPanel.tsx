@@ -2,7 +2,7 @@ import * as React from 'react';
 import Button from 'material-ui/Button';
 import EventsPanel from "./EventsPanel";
 import stores from "./stores";
-import {observer} from "mobx-react";
+import {inject} from "mobx-react";
 
 /*
 Replay: Load / Start / Stop / Options : Reset the cache, Reset subscriptions + Then replay cache, Replay realtime + Overwrite date/time
@@ -15,7 +15,7 @@ Events:
  - eee
  */
 
-@observer(['appState'])
+@inject('appState')
 class ReplayPanel extends React.Component {
   constructor(props:any) {
     super(props);

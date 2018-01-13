@@ -4,14 +4,14 @@ import Switch from 'material-ui/Switch';
 import Checkbox from "material-ui/Checkbox";
 import { FormGroup, FormControlLabel } from 'material-ui/Form';
 import stores from "./stores";
-import {observer} from "mobx-react";
+import {inject} from "mobx-react";
 
 /*
 RT: ON / OFF
 Cnx: Send Down / Send Up / Options : NFCP, NR, WEB, IRC
  */
 
-@observer(['appState'])
+@inject('appState')
 class RealtimePanel extends React.Component {
   state = {
     nfcp: true,
