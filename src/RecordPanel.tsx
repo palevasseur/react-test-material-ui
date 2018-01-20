@@ -1,8 +1,8 @@
 import * as React from 'react';
 import Button from 'material-ui/Button';
 import EventsPanel from "./EventsPanel";
-import stores from "./stores";
-import {inject} from "mobx-react";
+import {IAppState} from "./stores";
+import {inject, observer} from "mobx-react";
 
 /*
 Record: Start / Stop / Clean / Options : Enable circular subscriptions dump
@@ -13,24 +13,30 @@ Events:
  - eee
  */
 
-@inject('appState')
-class RecordPanel extends React.Component {
-  constructor(props:any) {
-    super(props);
+@inject("appState")
+@observer
+class RecordPanel extends React.Component<{appState:IAppState}> {
+  private gs: IAppState;
 
-    stores.appState.view = 'record';
+  constructor(props: {appState:IAppState}) {
+    super(props);
+    this.gs = props.appState;
+  }
+
+  componentDidMount() {
+    this.gs.view = 'record';
   }
 
   start() {
-    stores.appState.record = 'recording';
+    this.gs.record = 'recording';
   };
 
   stop() {
-    stores.appState.record = 'dataReady';
+    this.gs.record = 'dataReady';
   };
 
   clean() {
-    stores.appState.record = 'empty';
+    this.gs.record = 'empty';
   };
 
   render() {
@@ -38,11 +44,11 @@ class RecordPanel extends React.Component {
       <div>
         <div>
           <span className='PaneTitle'>Record</span>
-          <span style={{paddingLeft:'10px'}}>({stores.appState.record})</span>
+          <span style={{paddingLeft:'10px'}}>({this.gs.record})</span>
         </div>
-        <Button onClick={this.start.bind(this)} disabled={!stores.appState.enableRecordButtons.start}>Start</Button>
-        <Button onClick={this.stop.bind(this)} disabled={!stores.appState.enableRecordButtons.stop}>Stop</Button>
-        <Button onClick={this.clean.bind(this)} disabled={!stores.appState.enableRecordButtons.clean}>Clean</Button>
+        <Button onClick={this.start.bind(this)} disabled={!this.gs.enableRecordButtons.start}>Start</Button>
+        <Button onClick={this.stop.bind(this)} disabled={!this.gs.enableRecordButtons.stop}>Stop</Button>
+        <Button onClick={this.clean.bind(this)} disabled={!this.gs.enableRecordButtons.clean}>Clean</Button>
         <EventsPanel/>
       </div>
     );

@@ -5,16 +5,19 @@ class EventsPanel extends React.Component<{}> {
   state = {
     events: []
   };
+  eventsTimer: any;
 
-  constructor(props: {}) {
-    super(props);
-
-    setInterval(_ => {
+  componentDidMount() {
+    this.eventsTimer = setInterval(_ => {
       let events: Array<string> = this.state.events.slice(0, 4);
       events.unshift((new Date()).toISOString().split(/[TZ]/)[1] + ' realtime headline');
       this.setState({events: events});
     }, 1000);
-  };
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.eventsTimer);
+  }
 
   render() {
     return (

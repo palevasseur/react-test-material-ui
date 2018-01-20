@@ -3,16 +3,17 @@ import Button from 'material-ui/Button';
 import Switch from 'material-ui/Switch';
 import Checkbox from "material-ui/Checkbox";
 import { FormGroup, FormControlLabel } from 'material-ui/Form';
-import stores from "./stores";
-import {inject} from "mobx-react";
+import {IAppState} from "./stores";
+import {inject, observer} from "mobx-react";
 
 /*
 RT: ON / OFF
 Cnx: Send Down / Send Up / Options : NFCP, NR, WEB, IRC
  */
 
-@inject('appState')
-class RealtimePanel extends React.Component {
+@inject("appState")
+@observer
+class RealtimePanel extends React.Component<{appState?:IAppState}> {
   state = {
     nfcp: true,
     nr: true,
@@ -29,13 +30,13 @@ class RealtimePanel extends React.Component {
       <div>
         <div>
           <span className='PaneTitle'>Realtime</span>
-          <span style={{paddingLeft:'10px'}}>({stores.appState.realtime})</span>
+          <span style={{paddingLeft:'10px'}}>({this.props.appState && this.props.appState.realtime})</span>
         </div>
         <FormControlLabel
           control={
             <Switch
-              checked={stores.appState.realtime == 'on'}
-              onChange={(event, checked) => {stores.appState.realtime = checked ? 'on' : 'off'}}
+              checked={this.props.appState && this.props.appState.realtime == 'on'}
+              onChange={(event, checked) => {this.props.appState && (this.props.appState.realtime = checked ? 'on' : 'off')}}
             />
           }
           label="on/off"

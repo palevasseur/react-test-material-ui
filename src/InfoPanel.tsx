@@ -1,7 +1,5 @@
 import * as React from 'react';
-import {inject} from "mobx-react";
 
-@inject('appState')
 class InfoPanel extends React.Component<any> {
   render() {
     return (

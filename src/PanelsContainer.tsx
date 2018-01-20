@@ -6,8 +6,8 @@ import ReplayPanel from "./ReplayPanel";
 import RecordPanel from "./RecordPanel";
 import {Route, Switch} from "react-router";
 import {Link} from "react-router-dom";
-import {inject, Provider} from "mobx-react";
-import stores from "./stores";
+import {inject, observer, Provider} from "mobx-react";
+import stores, {IAppState} from "./stores";
 import Button from "material-ui/Button";
 
 class PanelsContainer extends React.Component<any> {
@@ -35,20 +35,29 @@ class PanelsContainer extends React.Component<any> {
 
 const linkStyle = {color:'inherit', textDecoration: 'none'};
 const linkStyleDisable = {color:'grey'};
-@inject('appState')
-class NavigationBar extends React.Component<any> {
+
+@inject("appState")
+@observer
+class NavigationBar extends React.Component<{appState?:IAppState}> {
+  private gs: IAppState;
+
+  constructor(props: {appState:IAppState}) {
+    super(props);
+    this.gs = props.appState;
+  }
+
   render() {
     return (
       <div style={{float: 'right'}}>
-        {stores.appState.enableNavigationLinks.simple && stores.appState.view !== 'simple'
+        {this.gs.enableNavigationLinks.simple && this.gs.view !== 'simple'
           ? <Link style={linkStyle} to='/simple'>Snapshot</Link>
           : <span style={linkStyleDisable}>Snapshot</span>}
         &bull;
-        {stores.appState.enableNavigationLinks.record && stores.appState.view !== 'record'
+        {this.gs.enableNavigationLinks.record && this.gs.view !== 'record'
           ? <Link style={linkStyle} to='/advanced/record'>Record</Link>
           : <span style={linkStyleDisable}>Record</span>}
         &bull;
-        {stores.appState.enableNavigationLinks.replay && stores.appState.view !== 'replay'
+        {this.gs.enableNavigationLinks.replay && this.gs.view !== 'replay'
           ? <Link style={linkStyle} to='/advanced/replay'>Replay</Link>
           : <span style={linkStyleDisable}>Replay</span>}
       </div>
@@ -64,12 +73,17 @@ const SimpleAdvancedSwitch = () => (
   </Switch>
 );
 
-@inject('appState')
-class SimpleContainer extends React.Component {
-  constructor(props: any) {
-    super(props);
+@inject("appState")
+class SimpleContainer extends React.Component<{appState?:IAppState}> {
+  private gs: IAppState;
 
-    stores.appState.view = 'simple';
+  constructor(props: {appState:IAppState}) {
+    super(props);
+    this.gs = props.appState;
+  }
+
+  componentDidMount() {
+    this.gs.view = 'simple';
   }
 
   render() {
