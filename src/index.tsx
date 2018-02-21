@@ -5,10 +5,15 @@ import registerServiceWorker from './registerServiceWorker';
 import './index.css';
 import {BrowserRouter} from 'react-router-dom'
 
+import DevTools from 'mobx-react-devtools'
+
 ReactDOM.render((
-  <BrowserRouter>
-    <App/>
-  </BrowserRouter>
+  <div>
+    <BrowserRouter>
+      <App/>
+    </BrowserRouter>
+    <DevTools position={{ bottom: 0, right: 0 }} />
+  </div>
   ),
   document.getElementById('root') as HTMLElement
 );

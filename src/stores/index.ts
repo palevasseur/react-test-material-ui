@@ -31,43 +31,34 @@ export interface IAppState {
   };
 }
 
-class AppState implements IAppState {
-  @observable private _realtime: IRealtimeStates = 'on';
-  @observable private _record: IRecordStates = 'empty';
-  @observable private _replay: IReplayStates = 'empty';
-  @observable private _view: IViewStates = 'simple';
-
-  get realtime(): IRealtimeStates { return this._realtime; }
-  set realtime(state: IRealtimeStates) { this._realtime = state; }
-  get record(): IRecordStates { return this._record; }
-  set record(state: IRecordStates) { this._record = state; }
-  get replay(): IReplayStates { return this._replay; }
-  set replay(state: IReplayStates) { this._replay = state; }
-  get view(): IViewStates { return this._view; }
-  set view(state: IViewStates) { this._view = state; }
+class AppState implements IAppState{
+  @observable realtime: IRealtimeStates = 'on';
+  @observable record: IRecordStates = 'empty';
+  @observable replay: IReplayStates = 'empty';
+  @observable view: IViewStates = 'simple';
 
   @computed get enableNavigationLinks() {
     return {
-      simple: (this._replay == 'empty' || this._replay == 'dataReady') && (this._record == 'empty' || this._record == 'dataReady'),
-      record: this._replay == 'empty' || this._replay == 'dataReady',
-      replay: this._record == 'empty' || this._record == 'dataReady'
+      simple: (this.replay == 'empty' || this.replay == 'dataReady') && (this.record == 'empty' || this.record == 'dataReady'),
+      record: this.replay == 'empty' || this.replay == 'dataReady',
+      replay: this.record == 'empty' || this.record == 'dataReady'
     }
   }
 
   @computed get enableRecordButtons() {
     return {
-      start: this._record == 'empty',
-      stop: this._record == 'recording',
-      clean: this._record == 'dataReady'
+      start: this.record == 'empty',
+      stop: this.record == 'recording',
+      clean: this.record == 'dataReady'
     }
   }
 
   @computed get enableReplayButtons() {
     return {
-      load: this._replay == 'empty',
-      start: this._replay == 'dataReady',
-      stop: this._replay == 'playing',
-      clean: this._replay == 'dataReady'
+      load: this.replay == 'empty',
+      start: this.replay == 'dataReady',
+      stop: this.replay == 'playing',
+      clean: this.replay == 'dataReady'
     }
   }
 }

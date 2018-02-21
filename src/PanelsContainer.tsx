@@ -9,6 +9,9 @@ import {Link} from "react-router-dom";
 import {inject, observer, Provider} from "mobx-react";
 import stores, {IAppState} from "./stores";
 import Button from "material-ui/Button";
+//import {useStrict} from "mobx";
+
+//useStrict(true);
 
 class PanelsContainer extends React.Component<any> {
   style: any;
