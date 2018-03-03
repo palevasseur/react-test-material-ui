@@ -9,9 +9,9 @@ import {Link} from "react-router-dom";
 import {inject, observer, Provider} from "mobx-react";
 import stores, {IAppState} from "./stores";
 import Button from "material-ui/Button";
-//import {useStrict} from "mobx";
+import {action, useStrict} from "mobx";
 
-//useStrict(true);
+useStrict(true);
 
 class PanelsContainer extends React.Component<any> {
   style: any;
@@ -85,6 +85,7 @@ class SimpleContainer extends React.Component<{appState?:IAppState}> {
     this.gs = props.appState;
   }
 
+  @action
   componentDidMount() {
     this.gs.view = 'simple';
   }
@@ -93,7 +94,6 @@ class SimpleContainer extends React.Component<{appState?:IAppState}> {
     return (
       <div>
         <InfoPanel/>
-
         <div className='PaneTitle'>Snapshot</div>
         <Button>Save</Button>
       </div>

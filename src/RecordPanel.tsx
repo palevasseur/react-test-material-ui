@@ -3,6 +3,7 @@ import Button from 'material-ui/Button';
 import EventsPanel from "./EventsPanel";
 import {IAppState} from "./stores";
 import {inject, observer} from "mobx-react";
+import {action} from "mobx";
 
 /*
 Record: Start / Stop / Clean / Options : Enable circular subscriptions dump
@@ -23,18 +24,22 @@ class RecordPanel extends React.Component<{appState:IAppState}> {
     this.gs = props.appState;
   }
 
+  @action
   componentDidMount() {
     this.gs.view = 'record';
   }
 
+  @action
   start() {
     this.gs.record = 'recording';
   };
 
+  @action
   stop() {
     this.gs.record = 'dataReady';
   };
 
+  @action
   clean() {
     this.gs.record = 'empty';
   };

@@ -3,6 +3,7 @@ import Button from 'material-ui/Button';
 import EventsPanel from "./EventsPanel";
 import {IAppState} from "./stores";
 import {inject, observer} from "mobx-react";
+import {action} from "mobx";
 
 /*
 Replay: Load / Start / Stop / Options : Reset the cache, Reset subscriptions + Then replay cache, Replay realtime + Overwrite date/time
@@ -25,22 +26,27 @@ class ReplayPanel extends React.Component<{appState:IAppState}> {
     this.gs = props.appState;
   }
 
+  @action
   componentDidMount() {
     this.gs.view = 'replay';
   }
 
+  @action
   load() {
     this.gs.replay = 'dataReady';
   };
 
+  @action
   start() {
     this.gs.replay = 'playing';
   }
 
+  @action
   stop() {
     this.gs.replay = 'dataReady';
   }
 
+  @action
   clean() {
     this.gs.replay = 'empty';
   }

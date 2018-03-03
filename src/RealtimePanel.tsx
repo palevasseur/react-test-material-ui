@@ -5,6 +5,7 @@ import Checkbox from "material-ui/Checkbox";
 import { FormGroup, FormControlLabel } from 'material-ui/Form';
 import {IAppState} from "./stores";
 import {inject, observer} from "mobx-react";
+import {action} from "mobx";
 
 /*
 RT: ON / OFF
@@ -21,9 +22,14 @@ class RealtimePanel extends React.Component<{appState?:IAppState}> {
     irc: true,
   };
 
-  handleChange = (name: string) => (event: any) => {
+  private handleChange = (name: string) => (event: any) => {
     this.setState({ [name]: event.target.checked });
   };
+
+  @action
+  private setRealtimeState(checked: boolean) {
+    this.props.appState && (this.props.appState.realtime = checked ? 'on' : 'off')
+  }
 
   render() {
     return (
@@ -36,7 +42,7 @@ class RealtimePanel extends React.Component<{appState?:IAppState}> {
           control={
             <Switch
               checked={this.props.appState && this.props.appState.realtime == 'on'}
-              onChange={(event, checked) => {this.props.appState && (this.props.appState.realtime = checked ? 'on' : 'off')}}
+              onChange={(event, checked) => {this.setRealtimeState(checked)}}
             />
           }
           label="on/off"
