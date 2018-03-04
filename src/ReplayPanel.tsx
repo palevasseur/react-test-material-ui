@@ -20,6 +20,9 @@ Events:
 @observer
 class ReplayPanel extends React.Component<{appState:IAppState}> {
   private gs: IAppState;
+  state = {
+    loadedFile: ''
+  };
 
   constructor(props: {appState:IAppState}) {
     super(props);
@@ -32,9 +35,25 @@ class ReplayPanel extends React.Component<{appState:IAppState}> {
   }
 
   @action
-  load() {
-    this.gs.replay = 'dataReady';
+  load(e: any) {
+    if(e.target.files.length) {
+      const file =  e.target.files[0];
+
+      const reader = new FileReader();
+      reader.onload = (e:any) => {
+        this.setState({loadedFile: e.target.result});
+      };
+
+      reader.readAsText(file);
+
+      this.gs.replay = 'dataReady';
+    }
   };
+
+  selectFile() {
+    const fileUploadDom: any = this.refs.fileUpload;
+    fileUploadDom.click();
+  }
 
   @action
   start() {
@@ -58,11 +77,14 @@ class ReplayPanel extends React.Component<{appState:IAppState}> {
           <span className='PaneTitle'>Replay</span>
           <span style={{paddingLeft:'10px'}}>({this.gs.replay})</span>
         </div>
-        <Button onClick={this.load.bind(this)} disabled={!this.gs.enableReplayButtons.load}>Load</Button>
+        <Button onClick={this.selectFile.bind(this)} disabled={!this.gs.enableReplayButtons.load}>Load</Button>
         <Button onClick={this.start.bind(this)} disabled={!this.gs.enableReplayButtons.start}>Start</Button>
         <Button onClick={this.stop.bind(this)} disabled={!this.gs.enableReplayButtons.stop}>Stop</Button>
         <Button onClick={this.clean.bind(this)} disabled={!this.gs.enableReplayButtons.clean}>Clean</Button>
         <EventsPanel/>
+
+        <input style={{"display" : "none"}} ref="fileUpload" type="file" accept=".json" multiple onChange={this.load.bind(this)}/>
+        <span>{this.state.loadedFile}</span>
       </div>
     );
   }
